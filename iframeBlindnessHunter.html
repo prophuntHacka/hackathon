@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Creepster&display=swap" rel="stylesheet">
+    <style>
+        body{
+            background-color: #222222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: "Chakra Petch", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 4rem;
+            }
+        .text{
+            color: white;
+            font-size: 4rem;
+            text-align: center;
+        }
+        span{
+            color: red;
+            font-size: 5rem;
+            font-family: "Creepster", system-ui;
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="text">
+        Vous avez 30sec avant de partir à la <br><span>chasse</span> 
+        <br>
+        <br>
+        <div id="timer-display"></div>
+    </div>
+</body>
+<script>
+    // Fonction pour démarrer le timer
+        function startTimer(durationInSeconds) {
+            let timerDisplay = document.getElementById("timer-display");
+            let endTime = Date.now() + durationInSeconds * 1000;
+
+            // Met à jour le timer chaque seconde
+            let timerInterval = setInterval(updateTimer, 1000);
+
+            function updateTimer() {
+                let currentTime = Date.now();
+                let remainingTime = endTime - currentTime;
+
+                // Si le temps restant est écoulé, arrête le timer
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = "00:00";
+                } else {
+                    let minutes = Math.floor((remainingTime / (1000 * 60)) % 60);
+                    let seconds = Math.floor((remainingTime / 1000) % 60);
+                    // Formatte le temps restant avec deux chiffres pour les minutes et les secondes
+                    let formattedTime = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    // Met à jour le contenu de l'élément HTML avec le temps restant formaté
+                    timerDisplay.textContent = formattedTime;
+                }
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            // Démarrer le timer avec une durée de 3 minutes (180 secondes)
+            startTimer(30);
+        });
+
+</script>
+</html>
