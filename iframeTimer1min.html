@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        body {
+            padding-top: 30px;
+            padding-right: 20px;
+        }
+
+        .timer {
+            width: 3rem;
+            background-color: #3f3f3f;
+            display: flex;
+            padding: 10px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timer .time {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: #FFF;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Nouveaux styles pour le changement de couleur de fond */
+        .orange-background {
+            background-color: orange;
+        }
+
+        .red-background {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="timer">
+        <div class="time">
+            <div id="timer-display">00:00</div>
+        </div>
+    </div>
+</body>
+<script>
+    function startTimer(durationInSeconds) {
+        let timerDisplay = document.getElementById("timer-display");
+        let timerContainer = document.querySelector(".timer");
+        let endTime = Date.now() + durationInSeconds * 1000;
+
+        let timerInterval = setInterval(updateTimer, 1000);
+
+        function updateTimer() {
+            let currentTime = Date.now();
+            let remainingTime = endTime - currentTime;
+
+            if (remainingTime <= 0) {
+                clearInterval(timerInterval);
+                timerDisplay.textContent = "00:00";
+                timerContainer.classList.add("red-background");
+            } else {
+                let minutes = Math.floor((remainingTime / (1000 * 60)) % 60);
+                let seconds = Math.floor((remainingTime / 1000) % 60);
+                let formattedTime = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timerDisplay.textContent = formattedTime;
+
+                // Changement de couleur vers la fin du décompte
+                if (remainingTime <= 10000) { // 10 secondes restantes
+                    timerContainer.classList.add("orange-background");
+                }
+            }
+        }
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        startTimer(60); // Démarrer le timer avec une durée de 1 minutes
+    });
+</script>
+</html>
